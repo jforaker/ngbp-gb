@@ -1,4 +1,4 @@
-angular.module('templates-app', ['details/details.tpl.html', 'home/home.tpl.html', 'search/search.tpl.html']);
+angular.module('templates-app', ['details/details.tpl.html', 'home/home.tpl.html', 'myBooks/myBooks.tpl.html', 'search/search.tpl.html']);
 
 angular.module("details/details.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("details/details.tpl.html",
@@ -7,11 +7,26 @@ angular.module("details/details.tpl.html", []).run(["$templateCache", function($
     "        Details\n" +
     "        <small>{{name}}</small>\n" +
     "    </h1>\n" +
+    "    <a ui-sref=\"myBooks\" ng-click=\"saveBook(book)\">save to my books <i class=\"fa fa-plus-circle\"></i></a>\n" +
+    "    <p>{{book.volumeInfo.title}}</p>\n" +
+    "    <img ng-src=\"{{book.volumeInfo.imageLinks.thumbnail}}\">\n" +
+    "    <p>{{book.volumeInfo.description}}</p>\n" +
     "\n" +
-    "    <p>{{fromService.title}}</p>\n" +
-    "    <img src=\"{{fromService.imageLinks.thumbnail}}\">\n" +
-    "    <p>{{fromService.description}}</p>\n" +
     "\n" +
+    "    <div class=\"dropdown btn-group\">\n" +
+    "        <a class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">\n" +
+    "            Options...\n" +
+    "            <span class=\"caret\"></span>\n" +
+    "        </a>\n" +
+    "        <ul class=\"dropdown-menu\">\n" +
+    "            <li>\n" +
+    "                <a> some choice</a>\n" +
+    "            </li>\n" +
+    "            <li>\n" +
+    "                <a> some other choice</a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
     "</div>\n" +
     "\n" +
     "");
@@ -20,27 +35,20 @@ angular.module("details/details.tpl.html", []).run(["$templateCache", function($
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
     "<div class=\"jumbotron\">\n" +
-    "  <h1>Non-Trivial AngularJS Made Easy</h1>\n" +
+    "  <h1>Some app.</h1>\n" +
     "\n" +
     "  <p class=\"lead\">\n" +
-    "    Everything you need to kickstart AngularJS projects: a best-practice\n" +
-    "    directory structure, an intelligent build system, and the best web design\n" +
-    "    libraries around.\n" +
+    "    Everything you need to kickstart AngularJS projects: blah.\n" +
     "  </p>\n" +
     "\n" +
     "  <ul class=\"list-inline social-buttons\">\n" +
-    "\n" +
     "    <li plus-one></li>\n" +
     "  </ul> \n" +
     "  \n" +
     "  <div class=\"btn-group\">\n" +
-    "    <a href=\"https://github.com/ngbp/ngbp#readme\" class=\"btn btn-large btn-default\">\n" +
+    "    <a href ui-sref=\"search\" class=\"btn btn-large btn-default\">\n" +
     "      <i class=\"fa fa-book\"></i>\n" +
-    "      Read the Docs\n" +
-    "    </a>\n" +
-    "    <a href=\"https://github.com/ngbp/ngbp\" class=\"btn btn-large btn-success\">\n" +
-    "      <i class=\"fa fa-download\"></i>\n" +
-    "      Download\n" +
+    "      Search for a book\n" +
     "    </a>\n" +
     "  </div>\n" +
     "\n" +
@@ -50,15 +58,41 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
+angular.module("myBooks/myBooks.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("myBooks/myBooks.tpl.html",
+    "<div class=\"row\">\n" +
+    "    <h1 class=\"page-header\">\n" +
+    "        My Books\n" +
+    "        <small>{{name}}</small>\n" +
+    "    </h1>\n" +
+    "\n" +
+    "    <form  ng-show=\"myBooks.length\" id=\"findBook\" class=\"form-inline form-search\" name=\"findBook\">\n" +
+    "        <p>You've read {{readCount.read}} books</p>\n" +
+    "        <p>You have {{readCount.unread}} books to read <span ng-show=\"readCount.unread == 0\">Hooray! <i class=\"fa fa-thumbs-up\"></i></span> </p>\n" +
+    "\n" +
+    "        <label>Filter your books\n" +
+    "            <input id=\"in\" type=\"text\" ng-model=\"query\" class=\"search-query input-medium\" />\n" +
+    "        </label>\n" +
+    "    </form>\n" +
+    "    <div ng-show=\"myBooks.length\" ng-repeat=\"book in myBooks | filter:query \">\n" +
+    "        <p class=\"{{book.read}}\">\n" +
+    "            <img ng-src=\"{{book.img}}\">\n" +
+    "            <a href ui-sref=\"details({ id: book.title })\">{{book.title}}</a>\n" +
+    "            &nbsp; - &nbsp;\n" +
+    "            <input type=\"checkbox\" ng-model=\"book.read\">\n" +
+    "        </p>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "");
+}]);
+
 angular.module("search/search.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("search/search.tpl.html",
     "<div class=\"row\">\n" +
-    "    <h1 class=\"page-header\">\n" +
-    "        Google Books v5\n" +
-    "    </h1>\n" +
+    "    <h1 class=\"page-header\">Google Books v5</h1>\n" +
     "\n" +
     "    <div class=\"container-fluid\" style=\"padding-left: 10px\">\n" +
-    "        <h2 id=\"hdr\"></h2>\n" +
     "        <form id=\"myForm\" class=\"form-inline form-search\" name=\"myForm\">\n" +
     "            <label>Search for\n" +
     "                <input id=\"in\" type=\"text\" ng-model=\"searchTerm\" class=\"search-query input-medium\" />\n" +
@@ -74,7 +108,7 @@ angular.module("search/search.tpl.html", []).run(["$templateCache", function($te
     "            <tbody>\n" +
     "            <tr ng-repeat=\"item in bookResults\">\n" +
     "                <td><a ng-href=\"{{item.volumeInfo.infoLink}}\" target=\"_blank\"><img ng-src=\"{{item.volumeInfo.imageLinks.smallThumbnail}}\" /></a></td>\n" +
-    "                <td><a ng-click=\"changeView(item)\">{{item.volumeInfo.title}}</a><br />\n" +
+    "                <td><a ui-sref=\"details({ id: item.id })\">{{item.volumeInfo.title}}</a><br />\n" +
     "                    By: {{item.volumeInfo.authors}}<br />\n" +
     "                    Published: {{item.volumeInfo.publisher}}, {{item.volumeInfo.publishedDate}}\n" +
     "                </td>\n" +

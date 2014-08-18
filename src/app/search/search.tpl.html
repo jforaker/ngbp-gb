@@ -1,10 +1,7 @@
 <div class="row">
-    <h1 class="page-header">
-        Google Books v5
-    </h1>
+    <h1 class="page-header">Google Books v5</h1>
 
     <div class="container-fluid" style="padding-left: 10px">
-        <h2 id="hdr"></h2>
         <form id="myForm" class="form-inline form-search" name="myForm">
             <label>Search for
                 <input id="in" type="text" ng-model="searchTerm" class="search-query input-medium" />
@@ -20,7 +17,7 @@
             <tbody>
             <tr ng-repeat="item in bookResults">
                 <td><a ng-href="{{item.volumeInfo.infoLink}}" target="_blank"><img ng-src="{{item.volumeInfo.imageLinks.smallThumbnail}}" /></a></td>
-                <td><a ng-click="changeView(item)">{{item.volumeInfo.title}}</a><br />
+                <td><a ui-sref="details({ id: item.id })">{{item.volumeInfo.title}}</a><br />
                     By: {{item.volumeInfo.authors}}<br />
                     Published: {{item.volumeInfo.publisher}}, {{item.volumeInfo.publishedDate}}
                 </td>

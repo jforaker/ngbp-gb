@@ -4,6 +4,8 @@ angular.module( 'ngBoilerplate', [
     'ngBoilerplate.home',
     'ngBoilerplate.search',
     'ngBoilerplate.details',
+    'ngBoilerplate.myBooks',
+    'localStorageModule',
     'ngResource'
 ])
 
@@ -11,17 +13,17 @@ angular.module( 'ngBoilerplate', [
         $urlRouterProvider.otherwise( '/home' );
     })
 
-    .run( function run () {
+    .run( function run ($rootScope, $timeout, LocalStorageService) {
+
+        $rootScope.counter = LocalStorageService.getCount();
     })
 
-    .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+    .controller( 'AppCtrl', function AppCtrl ( $scope, $location, LocalStorageService ) {
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-            console.log(arguments);
             if ( angular.isDefined( toState.data.pageTitle ) ) {
                 $scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
             }
         });
     })
-
 ;
 

@@ -3,10 +3,14 @@
  */
 
 // Service definition
-angular.module('ngBoilerplate.detailsService', [])
+angular.module('ngBoilerplate.detailsService', ['localStorageModule'])
     .service('detailsService', function(){
         this.values = {};
         this.sayHello = function(text){
-            return this.values.volumeInfo;
+            //return this.values.volumeInfo;
         };
-    });
+    })
+
+
+;
+

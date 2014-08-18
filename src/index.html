@@ -61,11 +61,17 @@
                 </li>
                 <li ui-sref-active="active">
                     <a href ui-sref="search">
-                        <i class="fa fa-info-circle"></i>
-                        Search?
+                        <i class="fa fa-search"></i>
+                        Search
                     </a>
                 </li>
-
+                <li ui-sref-active="active">
+                    <a href ui-sref="myBooks">
+                        <i class="fa fa-book"></i>
+                        My Books:
+                        {{counter}}
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
