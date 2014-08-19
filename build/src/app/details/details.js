@@ -4,8 +4,7 @@
 
     angular.module( 'ngBoilerplate.details', [
         'ui.router',
-        'placeholders',
-        'ui.bootstrap'
+        'placeholders'
     ])
 
         .config(function config( $stateProvider ) {
@@ -42,7 +41,7 @@
             });
         })
 
-        .controller( 'DetailsCtrl',  function( $scope, $rootScope, item, LocalStorageService, BookService) {
+        .controller( 'DetailsCtrl',  function( $scope, $rootScope, $timeout, item, LocalStorageService, BookService) {
 
             $scope.name ='DetailsCtrl';
             $scope.book = typeof item !== 'undefined' ? item : BookService.cached.items[0];
@@ -56,6 +55,12 @@
                     read: false
                 });
                 LocalStorageService.put($scope.books);
+
+                $rootScope.alerts.push({type: 'success', msg: book.volumeInfo.title + ' added!'});
+                $timeout(function(index){
+                    $rootScope.alerts.splice(index, 1);
+                }, 30000);
+
             };
 
             $scope.$watch('books', function (newValue, oldValue) {

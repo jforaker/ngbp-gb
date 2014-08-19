@@ -16,6 +16,15 @@ angular.module( 'ngBoilerplate', [
     .run( function run ($rootScope, $timeout, LocalStorageService) {
 
         $rootScope.counter = LocalStorageService.getCount();
+        $rootScope.alerts = [];
+
+        $rootScope.addAlert = function() {
+            $rootScope.alerts.push({type: 'success', msg: 'Another alert!'});
+        };
+
+        $rootScope.closeAlert = function(index) {
+            $rootScope.alerts.splice(index, 1);
+        };
     })
 
     .controller( 'AppCtrl', function AppCtrl ( $scope, $location, LocalStorageService ) {

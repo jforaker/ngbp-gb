@@ -9,7 +9,7 @@ angular.module("details/details.tpl.html", []).run(["$templateCache", function($
     "    </h1>\n" +
     "    <a ui-sref=\"myBooks\" ng-click=\"saveBook(book)\">save to my books <i class=\"fa fa-plus-circle\"></i></a>\n" +
     "    <p>{{book.volumeInfo.title}}</p>\n" +
-    "    <img ng-src=\"{{book.volumeInfo.imageLinks.thumbnail}}\">\n" +
+    "    <img ng-cloak ng-src=\"{{book.volumeInfo.imageLinks.thumbnail}}\">\n" +
     "    <p>{{book.volumeInfo.description}}</p>\n" +
     "\n" +
     "\n" +
@@ -42,7 +42,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "  </p>\n" +
     "\n" +
     "  <ul class=\"list-inline social-buttons\">\n" +
-    "    <li plus-one></li>\n" +
+    "    <!--<li plus-one></li>-->\n" +
     "  </ul> \n" +
     "  \n" +
     "  <div class=\"btn-group\">\n" +
@@ -61,6 +61,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
 angular.module("myBooks/myBooks.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("myBooks/myBooks.tpl.html",
     "<div class=\"row\">\n" +
+    "\n" +
     "    <h1 class=\"page-header\">\n" +
     "        My Books\n" +
     "        <small>{{name}}</small>\n" +
@@ -77,7 +78,7 @@ angular.module("myBooks/myBooks.tpl.html", []).run(["$templateCache", function($
     "    <div ng-show=\"myBooks.length\" ng-repeat=\"book in myBooks | filter:query \">\n" +
     "        <p class=\"{{book.read}}\">\n" +
     "            <img ng-src=\"{{book.img}}\">\n" +
-    "            <a href ui-sref=\"details({ id: book.title })\">{{book.title}}</a>\n" +
+    "            <a href ui-sref=\"details({ id: book.id })\">{{book.title}}</a>\n" +
     "            &nbsp; - &nbsp;\n" +
     "            <input type=\"checkbox\" ng-model=\"book.read\">\n" +
     "        </p>\n" +

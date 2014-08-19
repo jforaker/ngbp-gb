@@ -2,8 +2,7 @@
 
 angular.module( 'ngBoilerplate.search', [
     'ui.router',
-    'placeholders',
-    'ui.bootstrap'
+    'placeholders'
 ])
 
     .config(function config( $stateProvider ) {
@@ -12,23 +11,52 @@ angular.module( 'ngBoilerplate.search', [
             views: {
                 "main": {
                     controller: 'SearchCtrl',
-                    templateUrl: 'search/search.tpl.html'
+                    templateUrl: 'search/search.tpl.html',
+                    reloadOnSearch: false
                 }
+            },
+            resolve: {
+                search: function($stateParams, BookService, $location) {
+                    var search = $location.search().query;
+                    return search;
+                },
+                item: function($stateParams, BookService, $location) {
+                    var item = '';
+                    if(BookService.cached.length){
+                        item = BookService.cached;
+                    }
+                    return item;
+                }
+
+                //TODO check if it is "back" or if search is loaded
             },
             data:{ pageTitle: 'search' }
         });
     })
 
-    .controller( 'SearchCtrl', function SearchCtrl( $scope, BookService, $location ) {
+    .controller( 'SearchCtrl', function SearchCtrl( $scope, BookService, $location, search, item) {
 
-        $scope.searchTerm = "America";
-
-        $scope.doSearch = function () {
-            BookService.search($scope.searchTerm).then(function(response) {
-                BookService.cached.url = '?query=' + $scope.searchTerm;
+        console.log(item);
+        var serj = function (term, url){
+            if (url) {$location.search('query', term);}
+            BookService.search(term).then(function(response) {
                 $scope.bookResults = response.items;
                 $scope.orderProp = 'volumeInfo.title';
             });
+        };
+
+
+        if (search){
+            $scope.searchTerm = search;
+            if (!item){serj(search, false);}
+            if(item){$scope.bookResults = item;}
+
+        } else {
+            $scope.searchTerm = "Javascript";
+        }
+
+        $scope.doSearch = function () {
+            serj($scope.searchTerm, true);
         };
     })
 
