@@ -28,7 +28,7 @@ angular.module( 'ngBoilerplate.myBooks', [
             unread:  $filter('filter')(myBooks, { read: false }).length
         };
 
-        $scope.$watch('[myBooks]', function (newValue, oldValue, args) {
+        $scope.$watch('myBooks', function (newValue, oldValue, args) {
             if (newValue !== oldValue) {
                 LocalStorageService.put(myBooks);
                 $scope.readCount = {
@@ -37,5 +37,6 @@ angular.module( 'ngBoilerplate.myBooks', [
                 };
             }
         }, true);
+
     })
 ;

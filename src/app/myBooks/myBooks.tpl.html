@@ -1,4 +1,5 @@
 <div class="row">
+
     <h1 class="page-header">
         My Books
         <small>{{name}}</small>
@@ -15,7 +16,7 @@
     <div ng-show="myBooks.length" ng-repeat="book in myBooks | filter:query ">
         <p class="{{book.read}}">
             <img ng-src="{{book.img}}">
-            <a href ui-sref="details({ id: book.title })">{{book.title}}</a>
+            <a href ui-sref="details({ id: book.id })">{{book.title}}</a>
             &nbsp; - &nbsp;
             <input type="checkbox" ng-model="book.read">
         </p>

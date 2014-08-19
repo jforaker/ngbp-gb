@@ -5,7 +5,7 @@
     </h1>
     <a ui-sref="myBooks" ng-click="saveBook(book)">save to my books <i class="fa fa-plus-circle"></i></a>
     <p>{{book.volumeInfo.title}}</p>
-    <img ng-src="{{book.volumeInfo.imageLinks.thumbnail}}">
+    <img ng-cloak ng-src="{{book.volumeInfo.imageLinks.thumbnail}}">
     <p>{{book.volumeInfo.description}}</p>
 
 
